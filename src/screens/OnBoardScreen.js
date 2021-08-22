@@ -1,4 +1,3 @@
-import {bold} from 'chalk';
 import React from 'react';
 import {
   SafeAreaView,
@@ -10,8 +9,6 @@ import {
   Text,
   Pressable,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-
 import COLORS from '../constants/colors';
 const onBordImg = require('../assets/onboardImage.jpg');
 
