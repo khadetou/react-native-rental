@@ -10,13 +10,15 @@ import {
   TextInput,
   Dimensions,
   Pressable,
+  FlatList,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../constants/colors';
+import data from '../constants/data';
 import Person from '../assets/person.jpg';
 
 const {width} = Dimensions.get('screen');
-const {white, transparent, grey, dark, light} = COLORS;
+const {white, blue, grey, dark, light} = COLORS;
 export default function HomeScreen() {
   const {
     header,
@@ -29,6 +31,10 @@ export default function HomeScreen() {
     categoryListContainer,
     containerListText,
     activeCategoryList,
+    card,
+    cardImg,
+    facility,
+    facilityText,
   } = styles;
 
   const ListCategories = () => {
@@ -70,6 +76,50 @@ export default function HomeScreen() {
     );
   };
 
+  const Card = ({data}) => {
+    const {image, title, location} = data;
+    const items = [
+      {
+        icon: <Icon name="hotel" size={18} />,
+        text: '2',
+      },
+      {
+        icon: <Icon name="bathtub" size={18} />,
+        text: '2',
+      },
+      {
+        icon: <Icon name="aspect-ratio" size={18} />,
+        text: '100 m',
+      },
+    ];
+    return (
+      <View style={card}>
+        <Image source={image} style={cardImg} />
+        <View
+          style={{
+            justifyContent: 'space-between',
+            flexDirection: 'row',
+            marginTop: 10,
+          }}>
+          <Text style={{fontSize: 16, fontWeight: '700'}}>{title}</Text>
+          <Text style={{fontSize: 16, fontWeight: '700', color: blue}}>
+            $1,500
+          </Text>
+        </View>
+        <Text style={{color: grey, marginTop: 5, fontSize: 14}}>
+          {location}
+        </Text>
+        <View style={{marginTop: 10, flexDirection: 'row'}}>
+          {items.map((utility, idx) => (
+            <View style={facility} key={idx}>
+              {utility.icon}
+              <Text style={facilityText}>{utility.text}</Text>
+            </View>
+          ))}
+        </View>
+      </View>
+    );
+  };
   return (
     <SafeAreaView style={{backgroundColor: white, flex: 1}}>
       <StatusBar
@@ -104,6 +154,13 @@ export default function HomeScreen() {
         </View>
         <ListOptions />
         <ListCategories />
+        <FlatList
+          contentContainerStyle={{paddingLeft: 20, paddingVertical: 20}}
+          showsHorizontalScrollIndicator={false}
+          horizontal
+          data={data}
+          renderItem={({item}) => <Card data={item} />}
+        />
       </ScrollView>
     </SafeAreaView>
   );
@@ -176,5 +233,27 @@ const styles = StyleSheet.create({
     color: dark,
     borderBottomWidth: 1,
     paddingBottom: 5,
+  },
+  card: {
+    height: 280,
+    backgroundColor: white,
+    elevation: 10,
+    width: width - 40,
+    marginRight: 20,
+    padding: 15,
+    borderRadius: 20,
+  },
+  cardImg: {
+    width: '100%',
+    height: 150,
+    borderRadius: 15,
+  },
+  facility: {
+    flexDirection: 'row',
+    marginRight: 15,
+  },
+  facilityText: {
+    marginLeft: 5,
+    color: grey,
   },
 });
