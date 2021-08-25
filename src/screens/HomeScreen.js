@@ -19,7 +19,7 @@ import Person from '../assets/person.jpg';
 
 const {width} = Dimensions.get('screen');
 const {white, blue, grey, dark, light} = COLORS;
-export default function HomeScreen() {
+export default function HomeScreen({navigation}) {
   const {
     header,
     profileImg,
@@ -93,31 +93,33 @@ export default function HomeScreen() {
       },
     ];
     return (
-      <View style={card}>
-        <Image source={image} style={cardImg} />
-        <View
-          style={{
-            justifyContent: 'space-between',
-            flexDirection: 'row',
-            marginTop: 10,
-          }}>
-          <Text style={{fontSize: 16, fontWeight: '700'}}>{title}</Text>
-          <Text style={{fontSize: 16, fontWeight: '700', color: blue}}>
-            $1,500
+      <Pressable onPress={() => navigation.navigate('DetailScreen', data)}>
+        <View style={card}>
+          <Image source={image} style={cardImg} />
+          <View
+            style={{
+              justifyContent: 'space-between',
+              flexDirection: 'row',
+              marginTop: 10,
+            }}>
+            <Text style={{fontSize: 16, fontWeight: '700'}}>{title}</Text>
+            <Text style={{fontSize: 16, fontWeight: '700', color: blue}}>
+              $1,500
+            </Text>
+          </View>
+          <Text style={{color: grey, marginTop: 5, fontSize: 14}}>
+            {location}
           </Text>
+          <View style={{marginTop: 10, flexDirection: 'row'}}>
+            {items.map((utility, idx) => (
+              <View style={facility} key={idx}>
+                {utility.icon}
+                <Text style={facilityText}>{utility.text}</Text>
+              </View>
+            ))}
+          </View>
         </View>
-        <Text style={{color: grey, marginTop: 5, fontSize: 14}}>
-          {location}
-        </Text>
-        <View style={{marginTop: 10, flexDirection: 'row'}}>
-          {items.map((utility, idx) => (
-            <View style={facility} key={idx}>
-              {utility.icon}
-              <Text style={facilityText}>{utility.text}</Text>
-            </View>
-          ))}
-        </View>
-      </View>
+      </Pressable>
     );
   };
   return (
@@ -155,6 +157,7 @@ export default function HomeScreen() {
         <ListOptions />
         <ListCategories />
         <FlatList
+          snapToInterval={width - 20}
           contentContainerStyle={{paddingLeft: 20, paddingVertical: 20}}
           showsHorizontalScrollIndicator={false}
           horizontal
